@@ -60,6 +60,7 @@ void Assembler :: add_entry(string a, int k)
 void Assembler :: correct_object_code(vector<int> locs)
 {
 	int i = 0, j = 0, k = 1;
+
 	while(i <= obj_rec_no && k < locs.size())
 	{
 		int t = 1;
@@ -71,8 +72,8 @@ void Assembler :: correct_object_code(vector<int> locs)
 			{
 				if((obj_rec[i].at(t)).length() == 3)
 				{
-					string temp = obj_rec[obj_rec_no].at(t);
-					(obj_rec[i])[t] = temp.substr(0, temp.length() - 1) + add_chars(convert_to_hexa((int)pow(2, 15) + locctr), '0', 4, 0);					
+					string temp = obj_rec[i].at(t);
+					(obj_rec[i])[t] = temp.substr(0, temp.length() - 1) + add_chars(convert_to_hexa(locctr + (int)pow(2, 15)), '0', 4, 0);			
 				}
 				else
 				{
@@ -85,6 +86,7 @@ void Assembler :: correct_object_code(vector<int> locs)
 		}
 		i++;
 	}
+	cout<<endl;
 	return;
 }
 void Assembler :: generate_object_code()
@@ -101,7 +103,7 @@ void Assembler :: generate_object_code()
 			{
 				if(instr[1].compare(string("START")) == 0)
 				{
-					locctr = get_integer(instr[2]);
+					locctr = convert_to_decimal(instr[2]);
 					starting_address = locctr;
 					program_name = instr[0];
 					continue;
@@ -241,7 +243,7 @@ void Assembler :: generate_object_code()
 void Assembler :: write_object_code()
 {
 	ofstream fout(object_file_name.c_str());
-	fout<<"H^"<<add_chars(program_name, ' ', 6, 1)<<"^"<<add_chars(convert_to_hexa(starting_address), '0', 6, 0)<<"^"<<add_chars(convert_to_hexa(obj_address/3 - 1), '0', 6, 0)<<endl;
+	fout<<"H^"<<add_chars(program_name, ' ', 6, 1)<<"^"<<add_chars(convert_to_hexa(starting_address), '0', 6, 0)<<"^"<<add_chars(convert_to_hexa(obj_address - 3), '0', 6, 0)<<endl;
 	for(int i = 0; i <= obj_rec_no; i++)
 	{
 		if(obj_rec[i].size() == 0)
