@@ -269,7 +269,7 @@ void Assembler :: write_symtab()
 	map<string, vector<int> >::iterator it;
 	for(it = symtab.begin(); it != symtab.end(); ++it)
 	{
-		fout<<it->first<<" : "<<(it->second)[0]<<endl;
+		fout<<it->first<<" : "<<add_chars(convert_to_hexa((it->second)[0]), '0', 4, 0)<<endl;
 	}
 	fout.close();
 	return;
@@ -301,7 +301,7 @@ void Assembler :: display_symtab()
 		vector<int> temp= it->second;
 		if(temp.size() == 1)
 		{
-			cout<<it->first<<" : "<<temp[0]<<endl;
+			cout<<it->first<<" : "<<add_chars(convert_to_hexa(temp[0]), '0', 4, 0)<<endl;
 		}
 		else
 		{
